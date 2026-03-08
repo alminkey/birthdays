@@ -1,0 +1,27 @@
+{
+  "demo": "3",
+  "vrijeme_izvr\u0161enja": "2026-03-02T15:52:52.269859",
+  "zadatak": "Kreiranje Mini SaaS aplikacije - Invoice Generator",
+  "rezultat": "Uspje\u0161no",
+  "tehnologije_koristene": [
+    "Python",
+    "Streamlit",
+    "FPDF"
+  ],
+  "funkcionalnosti_uklju\u010dene": [
+    "GUI su\u010delje (klik) - ne treba kodiranje",
+    "AI generacija opisa usluga",
+    "PDF generiranje i download",
+    "Automatski obra\u010duni",
+    "Prilago\u0111eni podaci o firmi",
+    "Dodavanje vi\u0161e usluga"
+  ],
+  "vrsta_aplikacije": "SaaS (Software as a Service) - Web aplikacija",
+  "ciljna_upotreba": [
+    "Generiranje ra\u010duna za klijente",
+    "SaaS product za prodaju",
+    "Interni alat za biznis"
+  ],
+  "vrijeme_izrade": "< 1 minuta",
+  "tvoje_vrijeme": "0 minuta (samo gleda\u0161)"
+}

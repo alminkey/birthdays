@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Aging App - Istraživanje i Analiza Tržišta</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #6b7280;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            color: var(--dark);
+            margin: 20px 0 15px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-card.green {
+            background: linear-gradient(135deg, var(--secondary), #059669);
+        }
+
+        .stat-card.orange {
+            background: linear-gradient(135deg, var(--accent), #d97706);
+        }
+
+        .stat-card.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        /* Feature Matrix */
+        .feature-matrix {
+            overflow-x: auto;
+        }
+
+        .check {
+            color: var(--success);
+            font-size: 1.2em;
+        }
+
+        .cross {
+            color: var(--danger);
+            font-size: 1.2em;
+        }
+
+        .partial {
+            color: var(--warning);
+            font-size: 1.2em;
+        }
+
+        /* Evidence Levels */
+        .evidence-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .evidence-1 { background: #dcfce7; color: #166534; }
+        .evidence-2 { background: #dbeafe; color: #1e40af; }
+        .evidence-3 { background: #fef3c7; color: #92400e; }
+        .evidence-4 { background: #f3f4f6; color: #4b5563; }
+
+        /* Opportunity Cards */
+        .opportunity-card {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .gap-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 5px solid var(--accent);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* Recommendations */
+        .recommendation {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border-left: 5px solid var(--primary);
+        }
+
+        /* Tier System */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tier-card {
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .tier-1 { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 2px solid #22c55e; }
+        .tier-2 { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 2px solid #3b82f6; }
+        .tier-3 { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b; }
+        .tier-4 { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); border: 2px solid #6b7280; }
+
+        .tier-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .stat-value { font-size: 1.8em; }
+            .nav ul { flex-direction: column; align-items: center; }
+        }
+
+        /* Collapsible */
+        .collapsible {
+            cursor: pointer;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .collapsible:hover {
+            background: #e5e7eb;
+        }
+
+        .content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .active + .content {
+            max-height: 2000px;
+        }
+
+        /* Icons */
+        .icon { font-size: 1.5em; }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .card { box-shadow: none; border: 1px solid #ddd; }
+            .nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <ul>
+                <li><a href="#uvod">Uvod</a></li>
+                <li><a href="#trziste">Tržište</a></li>
+                <li><a href="#konkurencija">Konkurencija</a></li>
+                <li><a href="#praznine">Praznine</a></li>
+                <li><a href="#smjernice">Smjernice</a></li>
+                <li><a href="#preporuke">Preporuke</a></li>
+                <li><a href="#implementacija">Implementacija</a></li>
+            </ul>
+        </nav>
+
+        <!-- Header -->
+        <header class="header" id="uvod">
+            <h1>🏥 Anti-Aging Mobile App</h1>
+            <p class="subtitle">Istraživanje Tržišta, Analiza Konkurencije i Smjernice za Razvoj</p>
+            <p style="margin-top: 20px; color: #6b7280;">
+                <strong>Ciljna demografija:</strong> 40-60 godina | 
+                <strong>Platforma:</strong> iOS/Android | 
+                <strong>Datum:</strong> Mart 2025
+            </p>
+        </header>
+
+        <!-- Executive Summary -->
+        <section class="card">
+            <h2>📋 Izvršni Sažetak</h2>
+            <p style="font-size: 1.1em; line-height: 1.8;">
+                Globalno tržište anti-aging proizvoda i usluga doživljava eksponencijalni rast, s procijenjenom vrijednošću od 
+                <strong>$47-268 milijardi</strong> (ovisno o definiciji tržišta) i predviđenom stopom rasta od <strong>5.5-9.2% CAGR</strong>. 
+                Istovremeno, tržište mHealth aplikacija raste još brže (<strong>14.8-29.7% CAGR</strong>), dosežući $37.5-134.3 milijardi u 2024.
+            </p>
+            <p style="margin-top: 15px; font-size: 1.1em; line-height: 1.8;">
+                Analiza konkurencije otkriva značajnu <strong>tržišnu prazninu</strong>: niti jedna aplikacija ne kombinira optimalno 
+                sve ključne elemente - biomarkere, DNA analizu, wearables integraciju, AI coaching i gamifikaciju. 
+                Postoji prilika za aplikaciju koja će demokratizirati pristup znanstveno utemeljenim anti-aging protokolima 
+                za demografiju 40-60 godina.
+            </p>
+
+            <div class="stats-grid" style="margin-top: 30px;">
+                <div class="stat-card">
+                    <div class="stat-value">$268B</div>
+                    <div class="stat-label">Anti-Aging Tržište (2024)</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-value">9.2%</div>
+                    <div class="stat-label">CAGR 2024-2030</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-value">$134B</div>
+                    <div class="stat-label">mHealth App Tržište</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-value">43.5%</div>
+                    <div class="stat-label">Asia Pacific Udio</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Analysis -->
+        <section class="card" id="trziste">
+            <h2>🌍 Analiza Tržišta</h2>
+
+            <h3>Veličina Tržišta i Rast</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Izvor</th>
+                        <th>Vrijednost 2024</th>
+                        <th>Projekcija</th>
+                        <th>CAGR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Anti-Aging Market (Global)</td>
+                        <td>$75-268B</td>
+                        <td>$122-455B (2030-2033)</td>
+                        <td>5.5-9.2%</td>
+                    </tr>
+                    <tr>
+                        <td>mHealth Apps</td>
+                        <td>$37.5-134B</td>
+                        <td>$86-640B (2030)</td>
+                        <td>14.8-29.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Wellness Apps</td>
+                        <td>$11.2B</td>
+                        <td>$45.7B (2034)</td>
+                        <td>15.1%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Geografska Distribucija</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">43.5%</div>
+                    <div class="stat-label">Asia Pacific</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-value">$33.9B</div>
+                    <div class="stat-label">APAC Market Value</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-value">$14.4B</div>
+                    <div class="stat-label">US mHealth Market</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-value">15.4%</div>
+                    <div class="stat-label">US CAGR</div>
+                </div>
+            </div>
+
+            <h3>Ključni Trendovi 2025</h3>
+            <div class="gap-card">
+                <strong>🎯 Longevity postaje mainstream</strong><br>
+                Gen Z i millenialci usvajaju anti-aging prakse rano, stvarajući novu demografiju korisnika.
+            </div>
+            <div class="opportunity-card">
+                <strong>🤖 AI-driven personalizacija</strong><br>
+                AI aplikacije i wearables pružaju real-time personalizirane preporuke za optimizaciju zdravlja.
+            </div>
+            <div class="gap-card">
+                <strong>🧬 Healthspan vs Lifespan</strong><br>
+                Fokus se pomiče s "anti-aging" na proaktivnu optimizaciju "healthspan" - kvalitete životnih godina.
+            </div>
+        </section>
+
+        <!-- Competitor Analysis -->
+        <section class="card" id="konkurencija">
+            <h2>🏢 Analiza Konkurencije</h2>
+
+            <h3>Identificirani Konkurenti (11)</h3>
+
+            <div class="collapsible" onclick="this.classList.toggle('active')">
+                <strong>📊 Prikaži detaljnu usporedbu cijena</strong>
+                <span>▼</span>
+            </div>
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aplikacija</th>
+                            <th>Cijena</th>
+                            <th>Model</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>InsideTracker</strong></td><td>$149-$489/god</td><td>Premium</td><td>4.5/5</td></tr>
+                        <tr><td><strong>NOOM</strong></td><td>$70/mj - $209/god</td><td>Subscription</td><td>4.7/5</td></tr>
+                        <tr><td><strong>Calm</strong></td><td>$69.99/god</td><td>Subscription</td><td>4.8/5</td></tr>
+                        <tr><td><strong>Headspace</strong></td><td>$69.99/god</td><td>Subscription</td><td>4.8/5</td></tr>
+                        <tr><td><strong>MyFitnessPal</strong></td><td>$79.99-$99.99/god</td><td>Freemium</td><td>4.6/5</td></tr>
+                        <tr><td><strong>Rejuve.AI</strong></td><td>Besplatno + RJV tokeni</td><td>Blockchain</td><td>4.2/5</td></tr>
+                        <tr><td><strong>NOVOS Life</strong></td><td>Besplatno</td><td>Free</td><td>4.5/5</td></tr>
+                        <tr><td><strong>Don't Die</strong></td><td>Besplatno</td><td>Free</td><td>4.8/5</td></tr>
+                        <tr><td><strong>My Bio Age</strong></td><td>Besplatno</td><td>Free</td><td>4.8/5</td></tr>
+                        <tr><td><strong>The Longevity AI</strong></td><td>Besplatno</td><td>Free Forever</td><td>N/A</td></tr>
+                        <tr><td><strong>The Longevity Path</strong></td><td>Besplatno</td><td>Free</td><td>N/A</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Feature Matrix</h3>
+            <div class="feature-matrix">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>InsideTracker</th>
+                            <th>Rejuve.AI</th>
+                            <th>NOOM</th>
+                            <th>MyFitnessPal</th>
+                            <th>Don't Die</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Biološka dob</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>Blood Biomarkers</td>
+                            <td class="check">✓</td>
+                            <td class="partial">~</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                        </tr>
+                        <tr>
+                            <td>DNA Analiza</td>
+                            <td class="check">✓</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                        </tr>
+                        <tr>
+                            <td>Wearable Integration</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="partial">~</td>
+                        </tr>
+                        <tr>
+                            <td>AI Coaching</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="partial">~</td>
+                            <td class="cross">✗</td>
+                        </tr>
+                        <tr>
+                            <td>Gamifikacija</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>Community</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>Prehrana Tracking</td>
+                            <td class="partial">~</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>Supplementi</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Jedinstveni Diferencijatori</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Konkurent</th>
+                        <th>Jedinstvena Vrijednost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Rejuve.AI</strong></td>
+                        <td>Blockchain mreža za istraživanje longeviteta, RJV token nagrade</td>
+                    </tr>
+                    <tr>
+                        <td><strong>InsideTracker</strong></td>
+                        <td>Klinička analiza biomarkera, Harvard/MIT/Stanford znanstvenici</td>
+                    </tr>
+                    <tr>
+                        <td><strong>My Bio Age</strong></td>
+                        <td>On-device AI (Llama 3.2) za privatnost podataka</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NOOM</strong></td>
+                        <td>Psihologijski pristup (CBT) za promjenu navika</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MyFitnessPal</strong></td>
+                        <td>Najveća baza hrane (14M+ artikala)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Don't Die</strong></td>
+                        <td>Bryan Johnson Blueprint protokol, competitive leaderboards</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NOVOS Life</strong></td>
+                        <td>Peer-reviewed biološka dob test - besplatno</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Market Gaps -->
+        <section class="card" id="praznine">
+            <h2>🎯 Tržišne Praznine i Prilike</h2>
+
+            <h3>Kritične Praznine</h3>
+            <div class="gap-card">
+                <strong>1. Nedostatak sveobuhvatne integracije</strong><br>
+                Niti jedna aplikacija ne kombinira optimalno: blood biomarkers + DNA + wearables + AI coaching + gamifikacija + community.
+            </div>
+
+            <div class="gap-card">
+                <strong>2. Wearable ekosustav fragmentacija</strong><br>
+                Većina aplikacija podržava Apple Health, ali podrška za WHOOP i Oura je ograničena.
+            </div>
+
+            <div class="gap-card">
+                <strong>3. Trade-off: znanstvena vjerodostojnost vs. pristupačnost</strong><br>
+                Rigorozne aplikacije (InsideTracker) su skupe, dok besplatne aplikacije često nemaju peer-reviewed validaciju.
+            </div>
+
+            <div class="gap-card">
+                <strong>4. Gamifikacija je podkorištena</strong><br>
+                Samo Don't Die i NOVOS Life nude robustne gamifikacijske sustave.
+            </div>
+
+            <h3>Strateške Prilike</h3>
+            <div class="opportunity-card">
+                <strong>🚀 Mid-Market Opportunity</strong><br>
+                Postoji praznina između besplatnih i premium ($150+) aplikacija. Aplikacija cijene $50-100/god mogla bi zauzeti ovaj prostor.
+            </div>
+
+            <div class="opportunity-card">
+                <strong>🎮 Gamifikacija kao diferencijator</strong><br>
+                Implementacija token/reward sustava (slično Rejuve.AI) uz značajke community natjecanja (Don't Die stil).
+            </div>
+
+            <div class="opportunity-card">
+                <strong>🔬 Znanstvena vjerodostojnost + pristupačnost</strong><br>
+                Ponuditi besplatni tier s osnovnim značajkama + premium s kliničkim uvidima.
+            </div>
+
+            <div class="opportunity-card">
+                <strong>👥 Demografija 40-60 specifično</strong><br>
+                Većina aplikacija je ili previše općenita ili previše fokusirana na mlađe fitness entuzijaste. Potreban ciljani pristup za demografiju 40-60.
+            </div>
+        </section>
+
+        <!-- Anti-Aging Guidelines -->
+        <section class="card" id="smjernice">
+            <h2>🧬 Anti-Aging Smjernice</h2>
+
+            <h3>Prioritizacija Intervencija</h3>
+            <div class="tier-grid">
+                <div class="tier-card tier-1">
+                    <div class="tier-title">🥇 TIER 1 - Najveći Utjecaj</div>
+                    <ul>
+                        <li>Redovita tjelesna aktivnost</li>
+                        <li>Kvalitetan san (7-9 sati)</li>
+                        <li>Mediterranska prehrana</li>
+                        <li>Dnevna zaštita od sunca (SPF 30+)</li>
+                        <li>Upravljanje stresom</li>
+                    </ul>
+                    <span class="evidence-badge evidence-1">Level I dokazi</span>
+                </div>
+
+                <div class="tier-card tier-2">
+                    <div class="tier-title">🥈 TIER 2 - Snažni Dokazi</div>
+                    <ul>
+                        <li>Intermittent Fasting/TRE</li>
+                        <li>Resistance Training 2-3x/tjedno</li>
+                        <li>Retinoidi za kožu</li>
+                        <li>Vitamin D3 (ako deficit)</li>
+                        <li>Omega-3 masne kiseline</li>
+                    </ul>
+                    <span class="evidence-badge evidence-2">Level II dokazi</span>
+                </div>
+
+                <div class="tier-card tier-3">
+                    <div class="tier-title">🥉 TIER 3 - Emerging</div>
+                    <ul>
+                        <li>NMN (250-500 mg/dan)</li>
+                        <li>Resveratrol (150-500 mg/dan)</li>
+                        <li>Spermidine</li>
+                        <li>Metformin (TAME trial)</li>
+                        <li>Curcumin</li>
+                    </ul>
+                    <span class="evidence-badge evidence-3">Level II-III dokazi</span>
+                </div>
+
+                <div class="tier-card tier-4">
+                    <div class="tier-title">🔬 TIER 4 - Experimental</div>
+                    <ul>
+                        <li>Senolytics (D+Q, Fisetin)</li>
+                        <li>Hormonska optimizacija</li>
+                        <li>Rapamycin</li>
+                        <li>Terapije zamjene NAD+</li>
+                    </ul>
+                    <span class="evidence-badge evidence-4">Level III-IV dokazi</span>
+                </div>
+            </div>
+
+            <h3>Ključni Biomarkeri za Praćenje</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kategorija</th>
+                        <th>Biomarkeri</th>
+                        <th>Target Raspon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Metabolički</strong></td>
+                        <td>Glukoza, HbA1c, Inzulin</td>
+                        <td>Glukoza: 70-99 mg/dL, HbA1c: <5.7%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Upalni</strong></td>
+                        <td>CRP, Homocistein</td>
+                        <td>CRP: <1 mg/L, Homocistein: <10 µmol/L</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hormonski</strong></td>
+                        <td>DHEA, Testosteron, TSH</td>
+                        <td>Individualno, po dobi i spolu</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nutritivni</strong></td>
+                        <td>Vitamin D, B12, Omega-3 Index</td>
+                        <td>Vit D: 40-60 ng/mL, Omega-3: >8%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Biološka Dob</strong></td>
+                        <td>GrimAge, Horvath Clock, PhenoAge</td>
+                        <td>Biološka dob < kronološke dobi</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Smjernice po Fokusnom Području</h3>
+
+            <div class="collapsible" onclick="this.classList.toggle('active')">
+                <strong>🍎 Prehrana i Supplementi</strong>
+                <span>▼</span>
+            </div>
+            <div class="content">
+                <h4>Dijetalni obrasci</h4>
+                <ul>
+                    <li><strong>Mediterranska prehrana</strong> - Level I dokazi, smanjuje kardiovaskularni rizik za 30%</li>
+                    <li><strong>Caloric Restriction</strong> - Level II, CALERIE trial pokazao poboljšanje biomarkera</li>
+                    <li><strong>Time-Restricted Eating</strong> - Level II, 12-16 sati posta</li>
+                </ul>
+                <h4>Ključni supplementi</h4>
+                <ul>
+                    <li>NMN: 250-500 mg/dan (Level II-III)</li>
+                    <li>Resveratrol: 150-500 mg/dan</li>
+                    <li>Vitamin D3: 2000-5000 IU/dan</li>
+                    <li>Omega-3: 1-2g EPA/DHA dnevno</li>
+                    <li>Spermidine: 1-3 mg/dan</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" onclick="this.classList.toggle('active')">
+                <strong>🏃 Tjelesna Aktivnost</strong>
+                <span>▼</span>
+            </div>
+            <div class="content">
+                <h4>Aerobna aktivnost</h4>
+                <ul>
+                    <li>150+ min umjerene ILI 75+ min vigorozne tjedno (WHO preporuka)</li>
+                    <li>VO2 max ciljevi: Žene 28-35, Muškarci 35-45 mL·kg−1·min−1</li>
+                    <li>HIIT 1-2x tjedno za maksimalni benefit</li>
+                </ul>
+                <h4>Resistance Training</h4>
+                <ul>
+                    <li>2-3x tjedno, ključno za prevenciju sarkopenije</li>
+                    <li>12 tjedana treninga može preokrenuti fazu sarkopenije</li>
+                    <li>Fokus na velike mišićne skupine</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" onclick="this.classList.toggle('active')">
+                <strong>😴 San i Oporavak</strong>
+                <span>▼</span>
+            </div>
+            <div class="content">
+                <h4>Optimalni parametri</h4>
+                <ul>
+                    <li>Trajanje: 7-9 sati (Level I)</li>
+                    <li>Sleep efficiency: >85%</li>
+                    <li>Sleep regularity index: >80%</li>
+                </ul>
+                <h4>Cirkadijalna optimizacija</h4>
+                <ul>
+                    <li>Jutarnje svjetlo 10-30 min nakon buđenja</li>
+                    <li>Konzistentno vrijeme obroka</li>
+                    <li>Temperatura spavaće sobe: 18-20°C (65-68°F)</li>
+                    <li>High-amplitude cirkadijalni ritmovi koreliraju s povećanim lifespanom</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" onclick="this.classList.toggle('active')">
+                <strong>🧘 Upravljanje Stresom</strong>
+                <span>▼</span>
+            </div>
+            <div class="content">
+                <h4>Znanstveni dokazi</h4>
+                <ul>
+                    <li>2024 meta-analiza: 58 studija, 3500+ sudionika</li>
+                    <li>Medium effect size (g=0.282) za redukciju kortizola</li>
+                    <li>12-40 godina meditacije pokazuje smanjene markere starenja</li>
+                </ul>
+                <h4>Protokoli</h4>
+                <ul>
+                    <li>MBSR: 8-tjedni program, 45 min/dan</li>
+                    <li>Dnevna meditacija: 10-20 minuta</li>
+                    <li> mindfulness, dijafragmalno disanje, progresivna relaksacija</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" onclick="this.classList.toggle('active')">
+                <strong>✨ Njega Kože</strong>
+                <span>▼</span>
+            </div>
+            <div class="content">
+                <h4>Evidence-based sastojci</h4>
+                <ul>
+                    <li><strong>Retinoidi</strong> - Level I, foundational anti-aging (početi 0.25-0.3%)</li>
+                    <li><strong>Sunscreen SPF 30+</strong> - "Najvažniji proizvod", Level I</li>
+                    <li><strong>Peptidi, Vitamin C</strong> - Level II, sinergistički s retinoidima</li>
+                </ul>
+                <h4>Tracking metode</h4>
+                <ul>
+                    <li>Foto dokumentacija (mjesečno)</li>
+                    <li>Standardizirane skale procjene</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section class="card" id="preporuke">
+            <h2>💡 Strateške Preporuke</h2>
+
+            <h3>Pozicioniranje na Tržištu</h3>
+            <div class="recommendation">
+                <h4>🎯 Target Segment: Mid-Market Premium</h4>
+                <p><strong>Cijena:</strong> $49.99 - $79.99/godišnje (sweet spot između free i $150+ premium)</p>
+                <p><strong>Value Proposition:</strong> "Znanstveno utemeljeni anti-aging protokoli dostupni svima"</p>
+                <p><strong>Diferencijator:</strong> Jedinstvena kombinacija AI coaching + gamifikacija + community + evidence-based smjernice</p>
+            </div>
+
+            <h3>Monetizacija</h3>
+            <div class="recommendation">
+                <h4>💰 Hybrid Model</h4>
+                <ul>
+                    <li><strong>Free Tier:</strong> Osnovni tracking, biološka dob kalkulator, 3 dnevne preporuke</li>
+                    <li><strong>Premium ($59.99/god):</strong> AI coaching, personalizirani protokoli, napredni biomarker tracking, community access</li>
+                    <li><strong>Premium+ ($99.99/god):</strong> Sve iz Premium + integracija s lab testovima, DNA analiza upload, 1-on-1 coaching sesije</li>
+                </ul>
+            </div>
+
+            <h3>Ključne Značajke za Razvoj</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Značajka</th>
+                        <th>Prioritet</th>
+                        <th>Razlog</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Biološka dob kalkulator</td>
+                        <td><span class="evidence-badge evidence-1">P1 - Must Have</span></td>
+                        <td>Table stakes za longevity app</td>
+                    </tr>
+                    <tr>
+                        <td>AI Health Coach</td>
+                        <td><span class="evidence-badge evidence-1">P1 - Must Have</span></td>
+                        <td>Ključni diferencijator</td>
+                    </tr>
+                    <tr>
+                        <td>Wearable Integration</td>
+                        <td><span class="evidence-badge evidence-1">P1 - Must Have</span></td>
+                        <td>Apple Health, Oura, WHOOP, Fitbit, Garmin</td>
+                    </tr>
+                    <tr>
+                        <td>Gamifikacija sustav</td>
+                        <td><span class="evidence-badge evidence-1">P1 - Must Have</span></td>
+                        <td>Podkorišteno u tržištu, ključ za engagement</td>
+                    </tr>
+                    <tr>
+                        <td>Community/Leaderboards</td>
+                        <td><span class="evidence-badge evidence-2">P2 - Should Have</span></td>
+                        <td>Don't Die model pokazuje uspjeh</td>
+                    </tr>
+                    <tr>
+                        <td>Blood biomarker upload</td>
+                        <td><span class="evidence-badge evidence-2">P2 - Should Have</span></td>
+                        <td>Premium feature, znanstvena vjerodostojnost</td>
+                    </tr>
+                    <tr>
+                        <td>DNA upload & analiza</td>
+                        <td><span class="evidence-badge evidence-3">P3 - Nice to Have</span></td>
+                        <td>Premium+ only, kompleksnija implementacija</td>
+                    </tr>
+                    <tr>
+                        <td>Token/Reward sustav</td>
+                        <td><span class="evidence-badge evidence-2">P2 - Should Have</span></td>
+                        <td>Rejuve.AI model, incentivira korištenje</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Implementation -->
+        <section class="card" id="implementacija">
+            <h2>🗺️ Roadmap Implementacije</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Faza 1: MVP (3-4 mjeseca)</h3>
+                    <ul>
+                        <li>✅ Osnovni UI/UX dizajn</li>
+                        <li>✅ Biološka dob kalkulator (questionnaire + wearable data)</li>
+                        <li>✅ Dnevni tracking (prehrana, san, aktivnost, stres)</li>
+                        <li>✅ Apple Health / Google Fit integracija</li>
+                        <li>✅ Evidence-based preporuke (Tier 1 & 2)</li>
+                        <li>✅ Osnovni gamifikacija sustav (streaks, achievements)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Faza 2: Premium Features (2-3 mjeseca)</h3>
+                    <ul>
+                        <li>✅ AI Health Coach (GPT-4/Claude integracija)</li>
+                        <li>✅ Personalizirani protokoli</li>
+                        <li>✅ Oura i WHOOP integracija</li>
+                        <li>✅ Community features & leaderboards</li>
+                        <li>✅ Napredni biomarker tracking</li>
+                        <li>✅ Subscription model implementacija</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Faza 3: Scale & Advanced (3-4 mjeseca)</h3>
+                    <ul>
+                        <li>✅ Blood biomarker upload & analiza</li>
+                        <li>✅ DNA integracija</li>
+                        <li>✅ Token/reward sustav (optional blockchain)</li>
+                        <li>✅ Partnerstva s lab test servisima</li>
+                        <li>✅ Corporate wellness B2B ponuda</li>
+                        <li>✅ International expansion (EU, APAC)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Tehnološki Stack (Preporuka)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Komponenta</th>
+                        <th>Tehnologija</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Frontend Mobile</td><td>React Native / Flutter</td></tr>
+                    <tr><td>Backend</td><td>Node.js / Python FastAPI</td></tr>
+                    <tr><td>Database</td><td>PostgreSQL + Redis</td></tr>
+                    <tr><td>AI/ML</td><td>OpenAI GPT-4 / Claude API</td></tr>
+                    <tr><td>Wearable API</td><td>Apple HealthKit, Google Fit API, Oura API, WHOOP API</td></tr>
+                    <tr><td>Cloud</td><td>AWS / GCP / Azure</td></tr>
+                    <tr><td>Auth</td><td>Firebase Auth / Auth0</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Footer -->
+        <footer style="text-align: center; padding: 30px; color: white; opacity: 0.8;">
+            <p>Istraživanje pripremljeno: Mart 2025</p>
+            <p>Agent Zero Deep Research | Comprehensive Market Analysis</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                📄 Detaljni dokumenti: 
+                <a href="file:///a0/usr/workdir/competitor_analysis.md" style="color: white; text-decoration: underline;">competitor_analysis.md</a> | 
+                <a href="file:///a0/usr/workdir/antiaging_guidelines.md" style="color: white; text-decoration: underline;">antiaging_guidelines.md</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Collapsible functionality
+        document.querySelectorAll('.collapsible').forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+            });
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

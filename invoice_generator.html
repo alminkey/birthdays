@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Invoice Generator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 30px; }
+        h1 { text-align: center; color: #667eea; margin-bottom: 30px; font-size: 2.5em; }
+        h2 { color: #764ba2; margin-top: 25px; margin-bottom: 15px; font-size: 1.5em; border-bottom: 2px solid #667eea; padding-bottom: 5px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px; transition: border-color 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: #667eea; outline: none; }
+        .row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .col { flex: 1; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .btn:active { transform: translateY(0); }
+        .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .btn-danger { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
+        .items-list { margin-top: 20px; }
+        .item { background: #f8f9fa; border-left: 4px solid #667eea; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+        .item h4 { color: #667eea; margin-bottom: 5px; }
+        .item p { color: #555; margin: 5px 0; }
+        .total { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-top: 20px; font-size: 1.5em; font-weight: bold; text-align: center; }
+        .ai-badge { display: inline-block; background: #667eea; color: white; padding: 3px 10px; border-radius: 20px; font-size: 12px; margin-left: 10px; }
+        .footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; border-top: 1px solid #eee; padding-top: 20px; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .checkbox-group input[type="checkbox"] { width: auto; }
+        @media print { body { background: white; } .no-print { display: none; } .container { box-shadow: none; border-radius: 0; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧾 AI Invoice Generator</h1>
+
+        <div class="no-print">
+            <h2>📝 Podaci o tvojoj firmi</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Ime firme</label>
+                        <input type="text" id="fromName" value="AI Automation doo">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="fromEmail" value="info@ai-automation.com">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Adresa</label>
+                <input type="text" id="fromAddress" value="Ulica 123, 10000 Grad">
+            </div>
+            <div class="form-group">
+                <label>Satnica (€)</label>
+                <input type="number" id="hourlyRate" value="100" min="10" max="1000">
+            </div>
+
+            <h2>👤 Podaci klijenta</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Ime klijenta</label>
+                        <input type="text" id="toName">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Email klijenta</label>
+                        <input type="email" id="toEmail">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Adresa klijenta</label>
+                <input type="text" id="toAddress">
+            </div>
+
+            <h2>📋 Detalji računa</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Broj računa</label>
+                        <input type="text" id="invoiceNumber" value="INV-001">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Datum</label>
+                        <input type="date" id="invoiceDate">
+                    </div>
+                </div>
+            </div>
+
+            <h2>🛠️ Dodaj uslugu</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Tip usluge</label>
+                        <select id="serviceType">
+                            <option value="AI Automatizacija">AI Automatizacija</option>
+                            <option value="Web Razvoj">Web Razvoj</option>
+                            <option value="Konsultacije">Konsultacije</option>
+                            <option value="Održavanje">Održavanje</option>
+                            <option value="Custom Projekt">Custom Projekt</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Broj sati</label>
+                        <input type="number" id="hours" value="10" min="1" max="200">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="useAI" checked>
+                    <label for="useAI">🧠 Koristi AI za automatski opis</label>
+                </div>
+            </div>
+            <button class="btn" onclick="addItem()">➕ Dodaj uslugu</button>
+
+            <div class="items-list" id="itemsList"></div>
+            <div class="total" id="totalDisplay">💰 UKUPNO: €0.00</div>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <label>Bilješke</label>
+                <textarea id="notes" rows="3">Hvala na povjerenju. Račun je potrebno platiti u roku 30 dana.</textarea>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="btn btn-success" onclick="generatePDF()">🧾 GENERIRAJ PDF</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Kreirano autonomno od strane Agent Zero | Vrijeme: < 1 minuta</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let items = [];
+
+        // AI opisi usluga
+        const aiDescriptions = {
+            "AI Automatizacija": "Izrada i implementacija AI automatizacijskog rješenja za optimizaciju poslovnih procesa. Uključuje analizu, razvoj i testiranje automatizacije.",
+            "Web Razvoj": "Razvoj web aplikacije/sajta sa modernim tehnologijama. Responsivni dizajn, SEO optimizacija i brza performansa.",
+            "Konsultacije": "Strateško konsultiranje o implementaciji AI rješenja u poslovanje. Analiza potreba, preporuka alata i roadmap implementacije.",
+            "Održavanje": "Redovno održavanje i podrška za postojeće AI/softverske rješenje. Monitoring, ažuriranja i optimizacija.",
+            "Custom Projekt": "Prilagođeno rješenje prema specifičnim zahtjevima klijenta. Analiza, dizajn, razvoj i implementacija."
+        };
+
+        function addItem() {
+            const serviceType = document.getElementById("serviceType").value;
+            const hours = parseInt(document.getElementById("hours").value);
+            const useAI = document.getElementById("useAI").checked;
+            const hourlyRate = parseFloat(document.getElementById("hourlyRate").value);
+
+            let description;
+            if (useAI) {
+                description = aiDescriptions[serviceType] || `${serviceType} (${hours} sati)`;
+            } else {
+                description = `${serviceType} (${hours} sati)`;
+            }
+
+            const amount = hours * hourlyRate;
+
+            items.push({
+                description: description,
+                hours: hours,
+                amount: amount
+            });
+
+            renderItems();
+            updateTotal();
+        }
+
+        function renderItems() {
+            const itemsList = document.getElementById("itemsList");
+            itemsList.innerHTML = "";
+
+            items.forEach((item, index) => {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "item";
+                itemDiv.innerHTML = `
+                    <h4>${index + 1}. ${item.description}</h4>
+                    <p><strong>Sati:</strong> ${item.hours} | <strong>Iznos:</strong> €${item.amount.toFixed(2)}</p>
+                `;
+                itemsList.appendChild(itemDiv);
+            });
+        }
+
+        function updateTotal() {
+            const total = items.reduce((sum, item) => sum + item.amount, 0);
+            document.getElementById("totalDisplay").innerHTML = `💰 UKUPNO: €${total.toFixed(2)}`;
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            // Header
+            pdf.setFontSize(20);
+            pdf.text("INVOICE", 160, 20);
+            pdf.setFontSize(10);
+            pdf.text(`Invoice #: ${document.getElementById("invoiceNumber").value}`, 160, 28);
+            pdf.text(`Date: ${document.getElementById("invoiceDate").value}`, 160, 34);
+
+            // From
+            pdf.setFontSize(12);
+            pdf.setFont(undefined, "bold");
+            pdf.text("FROM:", 10, 50);
+            pdf.setFont(undefined, "normal");
+            pdf.setFontSize(10);
+            pdf.text(document.getElementById("fromName").value, 10, 56);
+            pdf.text(document.getElementById("fromAddress").value, 10, 62);
+            pdf.text(document.getElementById("fromEmail").value, 10, 68);
+
+            // To
+            pdf.setFontSize(12);
+            pdf.setFont(undefined, "bold");
+            pdf.text("TO:", 10, 85);
+            pdf.setFont(undefined, "normal");
+            pdf.setFontSize(10);
+            pdf.text(document.getElementById("toName").value, 10, 91);
+            pdf.text(document.getElementById("toAddress").value, 10, 97);
+            pdf.text(document.getElementById("toEmail").value, 10, 103);
+
+            // Items table
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, "bold");
+            pdf.text("Description", 10, 120);
+            pdf.text("Hours", 120, 120);
+            pdf.text("Amount", 150, 120);
+            pdf.setFont(undefined, "normal");
+
+            let y = 128;
+            let total = 0;
+            items.forEach(item => {
+                pdf.text(item.description.substring(0, 50), 10, y);
+                pdf.text(item.hours.toString(), 120, y);
+                pdf.text(`€${item.amount.toFixed(2)}`, 150, y);
+                y += 8;
+                total += item.amount;
+            });
+
+            // Total
+            pdf.setFont(undefined, "bold");
+            pdf.text("TOTAL:", 120, y + 10);
+            pdf.text(`€${total.toFixed(2)}`, 150, y + 10);
+
+            // Notes
+            pdf.setFont(undefined, "bold");
+            pdf.setFontSize(12);
+            pdf.text("Notes:", 10, y + 30);
+            pdf.setFont(undefined, "normal");
+            pdf.setFontSize(10);
+            const notes = document.getElementById("notes").value;
+            pdf.text(notes.substring(0, 80), 10, y + 38);
+
+            // Save
+            pdf.save(`invoice_${document.getElementById("invoiceNumber").value}.pdf`);
+        }
+
+        // Set today's date
+        document.getElementById("invoiceDate").valueAsDate = new Date();
+    </script>
+</body>
+</html>
